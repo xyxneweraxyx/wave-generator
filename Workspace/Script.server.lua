@@ -39,11 +39,13 @@ type waveParams = {
 	
 }
 
---[[ Note to help users with noise :
+--[[
+	Note to help users with noise :
 	Stretching the noise in the wave's axis influence how quick it changes form
 	Stretching the noise in the wave's opposite axis influences how sharp/rough it is
 	Stretching the noise in the Y axis adds a little big of randomness and roughness
-	Furthermore, please note that all noise factors should depend on the wave's height+amplitude.]]
+	Furthermore, please note that all noise factors should depend on the wave's height+amplitude.
+]]
 
 type completedWave = {
 	
@@ -354,12 +356,6 @@ local function createWave(params: waveParams)
 				foamX = pos
 			end
 			
-			--[[local boneDiff = math.abs(closestBone.WorldCFrame[axis] - secondClosestBone.WorldCFrame[axis])
-			local emitDiff = math.abs(closestBone.WorldCFrame[axis] - foamAxisTable[j])
-			local ratio = emitDiff/boneDiff
-			local lowestBone = closestBone.WorldCFrame.Y < secondClosestBone.WorldCFrame.Y and closestBone.WorldCFrame.Y or secondClosestBone.WorldCFrame.Y
-			local test = lowestBone + math.abs(closestBone.WorldCFrame.Y - secondClosestBone.WorldCFrame.Y)*ratio
-			if j == 1 then print(closestBone.WorldCFrame[axis], foamAxisTable[j]) end]]
 			table.insert(foamMoveTable[i], CFrame.new(Vector3.new(foamX, height, foamZ)))
 			
 		end
@@ -454,112 +450,3 @@ if wave then
 else
 	print("Problem generating the wave!")
 end
-
-
-
-
-
---[[for i = 1,10 do
-	
-	local params: waveParams = {
-		ocean = ocean:GetChildren(),
-
-		speed = 50,
-		height = 50,
-		amplitude = 50,
-
-		noiseMaxAdd = 10,
-		noiseRoughnessX = 0.02,
-		noiseRoughnessY = i/20,
-		noiseRoughnessZ = 0.02,
-
-		fps = 20,
-		axis = WAVE_AXIS,
-		direction = WAVE_DIRECTION,
-	}
-	local wave = createWave(params)
-	if wave then task.spawn(function() playWave(wave) end) else print("Problem generating the wave!") end
-	
-	task.wait(5)
-	
-end]]
-
-
-
-
-
-
-
-
-
-
-
-
---[[local bulkMoves = wave.bulkMoves
-local bulkBones = wave.bulkBones
-local bulkAmount = #bulkMoves
-local i = 1
-
-local uis = game:GetService("UserInputService")
-
-uis.InputBegan:Connect(function(input,gpe)
-	if gpe then return end
-	if input.UserInputType ~= Enum.UserInputType.Keyboard then return end
-	if input.KeyCode == Enum.KeyCode.T then
-		i += 1
-		for j,bone: Bone in bulkBones[i] do
-			bone.CFrame = bulkMoves[i][j]
-		end
-		for _,part in workspace.parts:GetChildren() do part:Destroy() end
-		for _,x in boneTable do
-			for _,bone in x do
-				newPart(bone.CFrame:ToWorldSpace(ocean.CFrame).Position, Vector3.one)
-			end
-		end
-	end
-	if input.KeyCode == Enum.KeyCode.R then
-		i -= 1
-		for j,bone: Bone in bulkBones[i] do
-			bone.CFrame = bulkMoves[i][j]
-		end
-		for _,part in workspace.parts:GetChildren() do part:Destroy() end
-		for _,x in boneTable do
-			for _,bone in x do
-				newPart(bone.CFrame:ToWorldSpace(ocean.CFrame).Position, Vector3.one)
-			end
-		end
-	end
-end)]]
-
---[[local function initializeOcean(ocean: MeshPart): {{Bone}}
-	
-	local boneTable = createBoneTable(ocean, CUT_AXIS)
-	if not boneTable then print("Error while creating boneTable") return nil end
-	
-	local sortTable = {}
-	
-	-- Create sortTable
-	for key,_ in boneTable do
-		table.insert(sortTable, key)
-	end
-	table.sort(sortTable)
-	
-	-- Delete unnecessary bones using both
-	local boneLen = #sortTable
-	for i,key in sortTable do		
-		if i % 1 == 0 then continue end
-		for _,bone in boneTable[key] do bone:Destroy() end
-		boneTable[key] = nil
-	end
-	
-	sortTable = nil
-	return boneTable
-	
-end]]
-
---[[local points = createBoneSortTables(ocean:GetChildren(), "X")
-for _,x in points.boneTable do
-	for _,bone in x do
-		newPart(bone.bone.WorldPosition+Vector3.new(0,5,0), Vector3.one)
-	end
-end]]

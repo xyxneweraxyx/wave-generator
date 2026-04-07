@@ -1,3 +1,0 @@
-local tsunamiModule = {}
-
-return tsunamiModule
